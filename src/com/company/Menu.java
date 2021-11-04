@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Menu {
     private ArrayList<Pizza> menuList;
 
-    public Menu(){
+    public Menu() {
         menuList = new ArrayList<>();
     }
 
@@ -31,28 +31,28 @@ public class Menu {
         }
     }
 
-    public void createNewPizza(int number, String name, String ingredients, double price){
-        Pizza pizza = new Pizza(number,name,ingredients,price);
+    public void createNewPizza(int number, String name, String ingredients, double price) {
+        Pizza pizza = new Pizza(number, name, ingredients, price);
         menuList.add(pizza);
     }
 
-    public void savePizzaToMenuFile(Pizza pizza){
+    public void savePizzaToMenuFile(Pizza pizza) {
         File file = new File("data/menu.csv");
         try {
             Scanner sc = new Scanner(file);
-            PrintStream ps = new PrintStream(new FileOutputStream(file,true));
+            PrintStream ps = new PrintStream(new FileOutputStream(file, true));
             ps.println(pizza);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println(file + " was not found: " + e);
         }
     }
 
-public String toString(){
+    public String toString() {
         String temp = "";
-    for (int i = 0; i < menuList.size(); i++) {
-        temp += menuList.get(i)+"\n";
-    }
+        for (int i = 0; i < menuList.size(); i++) {
+            temp += menuList.get(i) + "\n";
+        }
         return temp;
-}
+    }
 
 }
