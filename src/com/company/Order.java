@@ -21,7 +21,6 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-
     public Order() {
         orders = new ArrayList<>();
     }
