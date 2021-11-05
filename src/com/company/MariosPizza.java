@@ -9,7 +9,9 @@ public class MariosPizza {
     private UserInterface ui;
     private OrderList orderList;
     private int orderCounter = 0;
-    Order selectedOrder = null;
+    private Order selectedOrder = null;
+    private Pizza selectedPizza = null;
+    private Menu menu;
 
     Scanner sc = new Scanner(System.in);
 
@@ -17,10 +19,10 @@ public class MariosPizza {
         fileManager = new FileManager();
         ui = new UserInterface(this);
         orderList = new OrderList();
+        menu = new Menu();
     }
 
     public void start() {
-        Menu menu = new Menu();
         boolean goAgain = true;
         menu.loadMenu();
 
@@ -37,6 +39,7 @@ public class MariosPizza {
                     case 5 -> removeOrder();
                     case 6 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
                     case 9 -> createNewPizza(menu);
+                    case 10 -> removePizzaFromMenu();
                     case 0 -> {
                         fileManager.saveToMenu(menu);
                         System.out.println("Pizzamenu has been saved.");
@@ -62,6 +65,32 @@ public class MariosPizza {
         menu.createNewPizza(menu.getMenuList().size() + 1, name, ingredients, price);
     }
 
+    public void selectPizza(){
+        ui.showMenu(menu);
+        ui.userInterfacePrints(9);
+        int command = -1;
+
+        while (command != 0) {
+            try {
+                command = sc.nextInt();
+                if (command <= menu.getMenuList().size() && command > 0) {
+                    selectedPizza = menu.getMenuList().get(command - 1);
+                    command = 0;
+                } else if (command != 0) {
+                    ui.userInterfacePrints(7);
+                }
+            } catch (InputMismatchException e) {
+                command = -1;
+                sc.nextLine();
+            }
+        }
+    }
+
+    public void removePizzaFromMenu(){
+        selectPizza();
+        menu.getMenuList().remove(selectedPizza);
+    }
+
     private void selectOrder() {
         ui.finalizeOrderPrints(orderList);
         ui.userInterfacePrints(8);
@@ -81,7 +110,7 @@ public class MariosPizza {
         for (Pizza pizza : selectedOrder.getOrders()) {
             pizza.countSale();
         }
-       orderList.getOrderList().remove(selectedOrder);
+       removeOrder();
     }
 
 
@@ -97,7 +126,6 @@ public class MariosPizza {
 
     public void orderPizza(Menu menu) {
         Order order = new Order();
-        Pizza selectedPizza;
         ui.showMenu(menu);
         ui.userInterfacePrints(4);
         int command = -1;
@@ -109,6 +137,7 @@ public class MariosPizza {
                     ui.userInterfacePrints(5);
                     selectedPizza = menu.getMenuList().get(command - 1);
                     order.addPizzaToOrder(selectedPizza);
+                    selectedPizza = null;
                 } else if (command != 0) {
                     ui.userInterfacePrints(7);
                 }

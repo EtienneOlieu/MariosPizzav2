@@ -40,17 +40,6 @@ public class Menu {
         menuList.add(pizza);
     }
 
-    public void savePizzaToMenuFile(Pizza pizza) {
-        File file = new File("data/menu.csv");
-        try {
-            Scanner sc = new Scanner(file);
-            PrintStream ps = new PrintStream(new FileOutputStream(file, true));
-            ps.println(pizza);
-        } catch (FileNotFoundException e) {
-            System.out.println(file + " was not found: " + e);
-        }
-    }
-
     public String toString() {
         String temp = "";
         for (int i = 0; i < menuList.size(); i++) {

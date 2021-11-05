@@ -1,13 +1,25 @@
 package com.company;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Order {
     private ArrayList<Pizza> orders;
     private double totalPrice = 0;
-    private Timestamp timestamp;
+    private LocalDateTime localDateTime;
     private int orderNumber = 0;
+
+    //fjern pizza fra ordre
+    //tilføj pizza til ordre
+    //tilføj note til ordre
+
+
+    public Order() {
+        orders = new ArrayList<>();
+        localDateTime = LocalDateTime.now();
+    }
 
     public double getTotalPrice() {
         return totalPrice;
@@ -21,9 +33,6 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    public Order() {
-        orders = new ArrayList<>();
-    }
 
     public ArrayList<Pizza> getOrders() {
         return orders;
@@ -41,13 +50,20 @@ public class Order {
         }
     }
 
+    public String dateToString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd–MM–yy");
+        String formattedDateTime = localDateTime.format(formatter);
+        return formattedDateTime;
+    }
+
+
     public String toString() {
         String temp = "Order number - " + orderNumber + "\n";
         for (int i = 0; i < orders.size(); i++) {
             temp += orders.get(i) + "\n";
         }
-        String StringPrice = String.valueOf(totalPrice);
-        temp += "Total - " + StringPrice + " kr.\n";
-        return temp;
+        String stringPrice = String.valueOf(totalPrice);
+        temp += "Total - " + stringPrice + " kr.\n";
+        return temp + dateToString();
     }
 }

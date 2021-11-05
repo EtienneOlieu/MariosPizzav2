@@ -17,6 +17,7 @@ public class UserInterface {
                 Press ´5´ to remove order.
                 Press ´6´ to get sales of the day.
                 Press '9' to create a new pizza.
+                Press '10' to remove a pizza from the menu.
                 Press ´0´ to quit the program.""");
 
     }
@@ -38,6 +39,8 @@ public class UserInterface {
             case 7 -> System.out.println("There is no such pizza");
             // Finalize order prints
             case 8 -> System.out.println("Select an order");
+            // Select pizza
+            case 9 -> System.out.println("Type the number for the pizza you wish to remove from the menu");
         }
     }
     public void printOrder(Order order) {
