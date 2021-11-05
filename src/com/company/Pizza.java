@@ -41,6 +41,10 @@ public class Pizza {
     public String showSales() {
         return number + " - " + name + " - sold today: " + salesCounter;
     }
+
+    public String showSalesToCSV(){
+        return  number + ";" + name + ";" + salesCounter;
+    }
 }
 
 
