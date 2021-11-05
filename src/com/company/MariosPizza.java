@@ -9,7 +9,7 @@ public class MariosPizza {
     private UserInterface ui;
     private OrderList orderList;
     private int orderCounter = 0;
-    //Order selectedOrder = null; test
+    Order selectedOrder = null;
 
     Scanner sc = new Scanner(System.in);
 
@@ -33,8 +33,8 @@ public class MariosPizza {
                     case 1 -> ui.showMenu(menu);
                     case 2 -> orderPizza(menu);
                     case 3 -> showOrderList();
-                    case 4 -> finalizeOrder(selectOrder());
-                    case 5 -> removeOrder(selectOrder());
+                    case 4 -> finalizeOrder();
+                    case 5 -> removeOrder();
                     case 6 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
                     case 9 -> createNewPizza(menu);
                     case 0 -> {
@@ -62,8 +62,7 @@ public class MariosPizza {
         menu.createNewPizza(menu.getMenuList().size() + 1, name, ingredients, price);
     }
 
-    private Order selectOrder() {
-        Order selectedOrder = null;
+    private void selectOrder() {
         ui.finalizeOrderPrints(orderList);
         ui.userInterfacePrints(8);
             int tempCommand = sc.nextInt();
@@ -72,22 +71,23 @@ public class MariosPizza {
                     selectedOrder = order;
                 }
             }
-            return selectedOrder;
+
     }
 
 
-    private void finalizeOrder(Order order) {
-
-        fileManager.saveToOrderHistory(order);
-        for (Pizza pizza : order.getOrders()) {
+    private void finalizeOrder() {
+        selectOrder();
+        fileManager.saveToOrderHistory(selectedOrder);
+        for (Pizza pizza : selectedOrder.getOrders()) {
             pizza.countSale();
         }
-        removeOrder(order);
+       orderList.getOrderList().remove(selectedOrder);
     }
 
 
-    private void removeOrder(Order order) {
-        orderList.getOrderList().remove(order);
+    private void removeOrder() {
+        selectOrder();
+        orderList.getOrderList().remove(selectedOrder);
     }
 
 
