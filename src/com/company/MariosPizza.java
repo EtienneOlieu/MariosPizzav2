@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MariosPizza {
@@ -30,39 +31,56 @@ public class MariosPizza {
                 case 1 -> ui.showMenu(menu);
                 case 2 -> orderPizza(menu);
                 case 3 -> showOrderList();
-                case 4 -> finalizeOrder();
+                case 4 -> finalizeOrder(selectOrder());
+                case 5 -> removeOrder(selectOrder());
+                case 6 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
                 case 9 -> createNewPizza(menu);
                 case 0 -> {
                     fileManager.saveToMenu(menu);
                     System.out.println("Pizzamenu has been saved.");
                     goAgain = false;
+                    //TODO Timestamp, sørg for at sales printer ud med bedste salg først, anti-crash hist og her.
                 }
+                default -> System.out.println("glitch");
             }
         }
     }
 
     private void createNewPizza(Menu menu) {
-        ui.createNewPizzaPrints(1);
+        ui.userInterfacePrints(1);
         String name = sc.nextLine();
-        ui.createNewPizzaPrints(2);
+        ui.userInterfacePrints(2);
         String ingredients = sc.nextLine();
-        ui.createNewPizzaPrints(3);
+        ui.userInterfacePrints(3);
         double price = sc.nextInt();
         menu.createNewPizza(menu.getMenuList().size() + 1, name, ingredients, price);
     }
 
-    private void finalizeOrder() {
+    private Order selectOrder() {
         Order selectedOrder = null;
         ui.finalizeOrderPrints(orderList);
-        System.out.println("Select the order number to finalize"); //TODO Nederen lille sout.
+        ui.userInterfacePrints(8);
         int tempCommand = sc.nextInt();
         for (Order order : orderList.getOrderList()) {
             if (order.getOrderNumber() == tempCommand) {
                 selectedOrder = order;
-                fileManager.saveToOrderHistory(selectedOrder);
             }
         }
-        orderList.getOrderList().remove(selectedOrder);
+        return selectedOrder;
+    }
+
+    private void finalizeOrder(Order order) {
+
+        fileManager.saveToOrderHistory(order);
+        for (Pizza pizza : order.getOrders()) {
+            pizza.countSale();
+        }
+        removeOrder(order);
+    }
+
+
+    private void removeOrder(Order order) {
+        orderList.getOrderList().remove(order);
     }
 
 
@@ -74,26 +92,29 @@ public class MariosPizza {
         Order order = new Order();
         Pizza selectedPizza;
         ui.showMenu(menu);
-        ui.orderPizzaPrints(1);
+        ui.userInterfacePrints(4);
         int command = -1;
 
         while (command != 0) {
-
-            command = sc.nextInt();
-            if (command < menu.getMenuList().size() && command > 0) {
-                ui.orderPizzaPrints(2);
-                selectedPizza = menu.getMenuList().get(command - 1);
-                order.addPizzaToOrder(selectedPizza);
-            } else if (command != 0) {
-                ui.orderPizzaPrints(4);
+            try {
+                command = sc.nextInt();
+                if (command <= menu.getMenuList().size() && command > 0) {
+                    ui.userInterfacePrints(5);
+                    selectedPizza = menu.getMenuList().get(command - 1);
+                    order.addPizzaToOrder(selectedPizza);
+                } else if (command != 0) {
+                    ui.userInterfacePrints(7);
+                }
+                order.setTotalPrice();
+                orderCounter++;
+                order.setOrderNumber(orderCounter);
+                ui.userInterfacePrints(6);
+                ui.printOrder(order);
+                orderList.addOrderToList(order);
+            } catch (InputMismatchException e) {
+                command = -1;
+                sc.nextLine();
             }
         }
-        order.setTotalPrice();
-        orderCounter++;
-        order.setOrderNumber(orderCounter);
-        ui.orderPizzaPrints(3);
-        ui.printOrder(order);
-        orderList.addOrderToList(order);
-
     }
 }

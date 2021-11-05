@@ -1,14 +1,12 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pizza {
     private int number;
     private String name;
     private String ingredients;
-
-    public double getPrice() {
-        return price;
-    }
-
     private double price;
     private int salesCounter = 0;
 
@@ -17,6 +15,10 @@ public class Pizza {
         this.name = name;
         this.ingredients = ingredients;
         this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public void countSale() {
@@ -34,6 +36,10 @@ public class Pizza {
 
     public String toCSVString() {
         return number + ";" + name + ";" + ingredients + ";" + price;
+    }
+
+    public String showSales() {
+        return number + " - " + name + " - sold today: " + salesCounter;
     }
 }
 

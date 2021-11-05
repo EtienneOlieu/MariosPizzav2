@@ -7,15 +7,19 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Menu {
+    private Pizza pizza;
     private ArrayList<Pizza> menuList;
 
     public Menu() {
         menuList = new ArrayList<>();
+
     }
 
     public ArrayList<Pizza> getMenuList() {
         return menuList;
+
     }
 
     public void loadMenu() {
@@ -53,6 +57,14 @@ public class Menu {
             temp += menuList.get(i) + "\n";
         }
         return temp;
+    }
+
+    public String salesOfTheDay(){
+    String temp = "";
+        for (Pizza pizza:menuList) {
+            temp += pizza.showSales()+"\n";
+        }
+    return temp;
     }
 
 }
