@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 
 public class FileManager {
     public void saveToMenu(Menu pizzaMenu) {
@@ -29,8 +30,9 @@ public class FileManager {
             for (int i = 0; i < order.getOrders().size(); i++) {
                 temp += order.getOrders().get(i).toCSVString() + "\n";
             }
+            order.setLocalDateTime(LocalDateTime.now());
             String StringPrice = String.valueOf(order.getTotalPrice());
-            temp += "Total - " + StringPrice + " kr.\n";
+            temp += "Total - " + StringPrice + " kr.\n" + order.dateToString()+"\n\n";
 
             ps.append(temp);
             ps.close();

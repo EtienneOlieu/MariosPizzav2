@@ -50,6 +50,10 @@ public class Order {
         }
     }
 
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     public String dateToString(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd–MM–yy");
         String formattedDateTime = localDateTime.format(formatter);

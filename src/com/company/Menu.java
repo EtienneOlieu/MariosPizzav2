@@ -28,7 +28,7 @@ public class Menu {
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 String[] menuLine = sc.nextLine().split(";");
-                createNewPizza(Integer.parseInt(menuLine[0]), menuLine[1], menuLine[2], Double.parseDouble(menuLine[3]));
+                createNewPizza(menuList.size() + 1, menuLine[1], menuLine[2], Double.parseDouble(menuLine[3]));
             }
         } catch (FileNotFoundException e) {
             System.out.println(file + " was not found: " + e);

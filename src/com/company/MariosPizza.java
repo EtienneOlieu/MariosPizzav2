@@ -44,7 +44,7 @@ public class MariosPizza {
                         fileManager.saveToMenu(menu);
                         System.out.println("Pizzamenu has been saved.");
                         goAgain = false;
-                        //TODO Timestamp, sørg for at sales printer ud med bedste salg først, anti-crash hist og her.
+                        //TODO sørg for at sales printer ud med bedste salg først
                     }
                     default -> System.out.println("glitch");
                 }
@@ -86,9 +86,19 @@ public class MariosPizza {
         }
     }
 
-    public void removePizzaFromMenu(){
+    public void removePizzaFromMenu(){ //TODO flyt til menu
         selectPizza();
         menu.getMenuList().remove(selectedPizza);
+        fixPizzaNumbers();
+        selectedPizza = null;
+    }
+
+    public void fixPizzaNumbers(){ //TODO flyt til menu
+        for (Pizza pizza: menu.getMenuList()) {
+           if ( pizza.getNumber() >= selectedPizza.getNumber()) {
+                pizza.setNumber(pizza.getNumber() - 1);
+            }
+        }
     }
 
     private void selectOrder() {
@@ -103,7 +113,6 @@ public class MariosPizza {
 
     }
 
-
     private void finalizeOrder() {
         selectOrder();
         fileManager.saveToOrderHistory(selectedOrder);
@@ -115,10 +124,12 @@ public class MariosPizza {
 
 
     private void removeOrder() {
+        if (selectedOrder == null){
         selectOrder();
+        }
         orderList.getOrderList().remove(selectedOrder);
+        selectedOrder = null;
     }
-
 
     private void showOrderList() {
         ui.finalizeOrderPrints(orderList);
