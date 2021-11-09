@@ -9,8 +9,11 @@ import java.util.Scanner;
 
 
 public class Menu {
-    private Pizza pizza;
+    private Pizza selectedPizza = null;
     private ArrayList<Pizza> menuList;
+    private MariosPizza mariosPizza;
+    private UserInterface ui;
+
 
     public Menu() {
         menuList = new ArrayList<>();
@@ -46,12 +49,11 @@ public class Menu {
         return temp;
     }
 
-    public String salesOfTheDay(){
-    String temp = "";
-        for (Pizza pizza:menuList) {
-            temp += pizza.showSales()+"\n";
+    public String salesOfTheDay() {
+        String temp = "";
+        for (Pizza pizza : menuList) {
+            temp += pizza.showSales() + "\n";
         }
-    return temp;
+        return temp;
     }
-
 }

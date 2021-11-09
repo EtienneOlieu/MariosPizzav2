@@ -23,38 +23,79 @@ public class MariosPizza {
     }
 
     public void start() {
-        boolean goAgain = true;
         menu.loadMenu();
+        mainMenu();
+    }
 
+    public void mainMenu() {
+        boolean goAgain = true;
         while (goAgain) {
-            ui.welcomeMessage();
+            ui.switchMessage(1);
             try {
                 int command = sc.nextInt();
                 sc.nextLine();
                 switch (command) {
                     case 1 -> ui.showMenu(menu);
                     case 2 -> orderPizza(menu);
-                    case 3 -> showOrderList();
-                    case 4 -> addExtraPizzaToOrder();
-                    //case 5 -> noteToOrder();
-                    case 6 -> removePizzaFromOrder();
-                    case 7 -> finalizeOrder();
-                    case 8 -> removeOrder();
-                    case 9 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
-                    case 10 -> createNewPizza(menu);
-                    case 11 -> removePizzaFromMenu();
+                    case 3 -> {
+                        showOrderList();
+                        orderMenu();
+                    }
+                    case 4 -> statsMenu();
+                    case 5 -> editMenuMenu();
                     case 0 -> {
                         fileManager.saveToMenu(menu);
                         System.out.println("Pizzamenu has been saved.");
                         goAgain = false;
                         //TODO sørg for at sales printer ud med bedste salg først
                     }
-                    default -> System.out.println("glitch");
+                    default -> System.out.println("Wrong input.");
                 }
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 sc.nextLine();
                 System.out.println("Please type a number.");
             }
+        }
+    }
+
+    public void orderMenu() {
+        ui.switchMessage(2);
+        int command = sc.nextInt();
+        sc.nextLine();
+        switch (command) {
+            case 1 -> finalizeOrder();
+            case 2 -> editOrder();
+            case 3 -> removeOrder();
+        }
+    }
+
+    public void editOrder() {
+        ui.switchMessage(3);
+        int command = sc.nextInt();
+        sc.nextLine();
+        switch (command) {
+            case 1 -> addExtraPizzaToOrder();
+            case 2 -> removePizzaFromOrder();
+            //todo   case 3 -> noteToOrder();
+        }
+    }
+
+    public void statsMenu() {
+        ui.switchMessage(4);
+        int command = sc.nextInt();
+        sc.nextLine();
+        switch (command) {
+            case 1 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
+        }
+    }
+
+    public void editMenuMenu() {
+        ui.switchMessage(5);
+        int command = sc.nextInt();
+        sc.nextLine();
+        switch (command) {
+            case 1 -> createNewPizza(menu);
+            case 2 -> removePizzaFromMenu();
         }
     }
 
@@ -68,9 +109,9 @@ public class MariosPizza {
         menu.createNewPizza(menu.getMenuList().size() + 1, name, ingredients, price);
     }
 
-    public void selectPizza(){
+    public void selectPizza() {
         int command = -1;
-        while (command != 0){
+        while (command != 0) {
             try {
                 command = sc.nextInt();
                 if (command <= menu.getMenuList().size() && command > 0) {
@@ -84,73 +125,6 @@ public class MariosPizza {
                 sc.nextLine();
             }
         }
-    }
-
-    public void addExtraPizzaToOrder(){
-        selectOrder();
-        ui.showMenu(menu);
-        ui.userInterfacePrints(8);
-        selectPizza();
-        selectedOrder.addPizzaToOrder(selectedPizza);
-        selectedOrder.setTotalPrice();
-    }
-
-    public void removePizzaFromOrder(){
-        selectOrder();
-        ui.showOrder(selectedOrder);
-        ui.userInterfacePrints(9);
-        selectPizza();
-        selectedOrder.removePizzaFromOrder(selectedPizza);
-        selectedOrder.setTotalPrice();
-    }
-
-    public void removePizzaFromMenu(){ //TODO flyt til menu
-        ui.userInterfacePrints(13);
-        selectPizza();
-        menu.getMenuList().remove(selectedPizza);
-        fixPizzaNumbers();
-        selectedPizza = null;
-    }
-
-    public void fixPizzaNumbers(){ //TODO flyt til menu
-        for (Pizza pizza: menu.getMenuList()) {
-           if ( pizza.getNumber() >= selectedPizza.getNumber()) {
-                pizza.setNumber(pizza.getNumber() - 1);
-            }
-        }
-    }
-
-    private void selectOrder() {
-        ui.finalizeOrderPrints(orderList);
-        ui.userInterfacePrints(12);
-            int tempCommand = sc.nextInt();
-            for (Order order : orderList.getOrderList()) {
-                if (order.getOrderNumber() == tempCommand) {
-                    selectedOrder = order;
-                }
-            }
-    }
-
-    private void finalizeOrder() {
-        selectOrder();
-        fileManager.saveToOrderHistory(selectedOrder);
-        for (Pizza pizza : selectedOrder.getOrders()) {
-            pizza.countSale();
-        }
-       removeOrder();
-    }
-
-
-    private void removeOrder() {
-        if (selectedOrder == null){
-        selectOrder();
-        }
-        orderList.getOrderList().remove(selectedOrder);
-        selectedOrder = null;
-    }
-
-    private void showOrderList() {
-        ui.finalizeOrderPrints(orderList);
     }
 
     public void orderPizza(Menu menu) {//TODO samme metode (while) som i select pizza
@@ -175,11 +149,80 @@ public class MariosPizza {
                 sc.nextLine();
             }
         }
-                order.setTotalPrice();
-                orderCounter++;
-                order.setOrderNumber(orderCounter);
-                ui.userInterfacePrints(6);
-                ui.printOrder(order); //TODO samme metode i ui som showOrder i removePizzaFromOrder
-                orderList.addOrderToList(order);
+        order.setTotalPrice();
+        orderCounter++;
+        order.setOrderNumber(orderCounter);
+        ui.userInterfacePrints(6);
+        ui.showOrder(order);
+        orderList.addOrderToList(order);
     }
+
+    public void addExtraPizzaToOrder() {
+        selectOrder();
+        ui.showMenu(menu);
+        ui.userInterfacePrints(8);
+        selectPizza();
+        selectedOrder.addPizzaToOrder(selectedPizza);
+        selectedOrder.setTotalPrice();
+    }
+
+    public void removePizzaFromOrder() {
+        selectOrder();
+        ui.showOrder(selectedOrder);
+        ui.userInterfacePrints(9);
+        selectPizza();
+        selectedOrder.removePizzaFromOrder(selectedPizza);
+        selectedOrder.setTotalPrice();
+    }
+
+    public void removePizzaFromMenu() { //TODO flyt til menu
+        ui.showMenu(menu);
+        ui.userInterfacePrints(13);
+        selectPizza();
+        menu.getMenuList().remove(selectedPizza);
+        fixPizzaNumbers();
+        selectedPizza = null;
+    }
+
+    public void fixPizzaNumbers() { //TODO flyt til menu
+        for (Pizza pizza : menu.getMenuList()) {
+            if (pizza.getNumber() >= selectedPizza.getNumber()) {
+                pizza.setNumber(pizza.getNumber() - 1);
+            }
+        }
+    }
+
+    private void selectOrder() {
+        ui.finalizeOrderPrints(orderList);
+        ui.userInterfacePrints(12);
+        int tempCommand = sc.nextInt();
+        for (Order order : orderList.getOrderList()) {
+            if (order.getOrderNumber() == tempCommand) {
+                selectedOrder = order;
+            }
+        }
+    }
+
+    private void finalizeOrder() {
+        selectOrder();
+        fileManager.saveToOrderHistory(selectedOrder);
+        for (Pizza pizza : selectedOrder.getOrders()) {
+            pizza.countSale();
+        }
+        removeOrder();
+    }
+
+    private void removeOrder() {
+        if (selectedOrder == null) {
+            selectOrder();
+        }
+        orderList.getOrderList().remove(selectedOrder);
+        selectedOrder = null;
+    }
+
+    private void showOrderList() {
+        ui.finalizeOrderPrints(orderList);
+    }
+
+
 }

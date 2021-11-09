@@ -7,22 +7,48 @@ public class UserInterface {
         this.mariosPizza = mariosPizza;
     }
 
-    public void welcomeMessage() {
-        System.out.println("""
-                ______________________________________________
-                Press ´1´ to show menu.
-                Press ´2´ to create new order.
-                Press ´3´ to show open orders.
-                Press '4' to add a pizza to the order.
-                Press '5' to remove a pizza from the order.
-                Press '6' to finalize order.
-                Press ´7´ to remove order.
-                Press ´8´ to get sales of the day.
-                Press '9' to create a new pizza.
-                Press '10' to remove a pizza from the menu.
-                Press ´0´ to quit the program.
-                _______________________________________________
-                """);
+    public void switchMessage(int number) {
+        switch (number) {
+            case 1 -> System.out.println("""
+                    ______________________________________________
+                    Press '1' to show menu.
+                    Press '2' to create new order.
+                    Press '3' to show and edit open orders.
+                    Press '4' to show statistics.
+                    Press '5' to edit the menu.
+                    Press '0' to quit the program.
+                    ______________________________________________
+                    """);
+            case 2 -> System.out.println("""
+                    ______________________________________________
+                    Press '1' to finalize order.
+                    Press '2' to edit an order.
+                    Press '3' to remove order.
+                    Press 'Anything else' to return to the main menu.
+                    ______________________________________________
+                    """);
+            case 3 -> System.out.println("""
+                    ______________________________________________
+                    Press '1' to add a pizza to an order.
+                    Press '2' to remove a pizza from an order.
+                    Press '3' to add a note to an order (VIRKER IKKE ENDNU)
+                    Press 'Anything else' to return to the main menu.
+                    ______________________________________________
+                    """);
+            case 4 -> System.out.println("""
+                    ______________________________________________
+                    Press '1' to see sales of the day.
+                    Press 'Anything else' to return to the main menu.
+                    ______________________________________________
+                    """);
+            case 5 -> System.out.println("""
+                    ______________________________________________
+                    Press '1' to create a new pizza to the menu.
+                    Press '2' remove a pizza from the menu.
+                    Press 'Anything else' to return to the main menu.
+                    ______________________________________________
+                    """);
+        }
     }
 
     public void showMenu(Menu menu) {
@@ -49,16 +75,13 @@ public class UserInterface {
             case 13 -> System.out.println("Type the number for the pizza you wish to remove from the menu");
         }
     }
-    public void printOrder(Order order) {
-        System.out.println(order);
-    }
+
     public void finalizeOrderPrints(OrderList orderList) {
         System.out.println(orderList);
     }
     public void printSalesOfTheDay(String string) {
         System.out.println(string);
     }
-
     public void showOrder(Order order) {
         System.out.println(order);
     }
