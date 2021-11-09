@@ -109,7 +109,7 @@ public class MariosPizza {
         menu.createNewPizza(menu.getMenuList().size() + 1, name, ingredients, price);
     }
 
-    public void selectPizza() {
+    public void selectPizza() { //Todo Ryk metoden til Menu
         int command = -1;
         while (command != 0) {
             try {
@@ -127,7 +127,7 @@ public class MariosPizza {
         }
     }
 
-    public void orderPizza(Menu menu) {//TODO samme metode (while) som i select pizza
+    public void orderPizza(Menu menu) {
         Order order = new Order();
         ui.showMenu(menu);
         ui.userInterfacePrints(4);
@@ -231,6 +231,4 @@ public class MariosPizza {
     private void showOrderList() {
         ui.finalizeOrderPrints(orderList);
     }
-
-
 }

@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Pizza {
     private int number;
@@ -25,10 +23,6 @@ public class Pizza {
         salesCounter++;
     }
 
-    public int getSalesCounter() {
-        return salesCounter;
-    }
-
     public int getNumber() {
         return number;
     }
@@ -48,10 +42,6 @@ public class Pizza {
 
     public String showSales() {
         return number + " - " + name + " - sold today: " + salesCounter;
-    }
-
-    public String showSalesToCSV(){
-        return  number + ";" + name + ";" + salesCounter;
     }
 }
 
