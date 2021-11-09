@@ -73,6 +73,7 @@ public class UserInterface {
             case 12 -> System.out.println("Select an order");
             // Select pizza
             case 13 -> System.out.println("Type the number for the pizza you wish to remove from the menu");
+            case 14 -> System.out.println("There is no order with that order number.");
         }
     }
 

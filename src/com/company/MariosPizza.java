@@ -159,20 +159,26 @@ public class MariosPizza {
 
     public void addExtraPizzaToOrder() {
         selectOrder();
-        ui.showMenu(menu);
-        ui.userInterfacePrints(8);
-        selectPizza();
-        selectedOrder.addPizzaToOrder(selectedPizza);
-        selectedOrder.setTotalPrice();
+        if (selectedOrder != null) {
+            ui.showMenu(menu);
+            ui.userInterfacePrints(8);
+            selectPizza();
+            if (selectedOrder != null) {
+                selectedOrder.addPizzaToOrder(selectedPizza);
+                selectedOrder.setTotalPrice();
+            }
+        }
     }
 
     public void removePizzaFromOrder() {
         selectOrder();
-        ui.showOrder(selectedOrder);
-        ui.userInterfacePrints(9);
-        selectPizza();
-        selectedOrder.removePizzaFromOrder(selectedPizza);
-        selectedOrder.setTotalPrice();
+        if (selectedOrder != null) {
+            ui.showOrder(selectedOrder);
+            ui.userInterfacePrints(9);
+            selectPizza();
+            selectedOrder.removePizzaFromOrder(selectedPizza);
+            selectedOrder.setTotalPrice();
+        }
     }
 
     public void removePizzaFromMenu() { //TODO flyt til menu
@@ -206,10 +212,12 @@ public class MariosPizza {
     private void finalizeOrder() {
         selectOrder();
         fileManager.saveToOrderHistory(selectedOrder);
-        for (Pizza pizza : selectedOrder.getOrders()) {
-            pizza.countSale();
+        if (selectedOrder != null) {
+            for (Pizza pizza : selectedOrder.getOrders()) {
+                pizza.countSale();
+            }
+            removeOrder();
         }
-        removeOrder();
     }
 
     private void removeOrder() {

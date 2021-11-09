@@ -24,21 +24,23 @@ public class FileManager {
 
     public void saveToOrderHistory(Order order) {
         File file = new File("data/orderhistory.csv");
-        try {
-            PrintStream ps = new PrintStream(new FileOutputStream(file, true));
-            String temp = "Order number - " + order.getOrderNumber() + "\n";
-            for (int i = 0; i < order.getOrders().size(); i++) {
-                temp += order.getOrders().get(i).toCSVString() + "\n";
+        if (order !=null) {
+            try {
+                PrintStream ps = new PrintStream(new FileOutputStream(file, true));
+                String temp = "Order number - " + order.getOrderNumber() + "\n";
+                for (int i = 0; i < order.getOrders().size(); i++) {
+                    temp += order.getOrders().get(i).toCSVString() + "\n";
+                }
+                order.setLocalDateTime(LocalDateTime.now());
+                String StringPrice = String.valueOf(order.getTotalPrice());
+                temp += "Total - " + StringPrice + " kr.\n" + order.dateToString() + "\n\n";
+
+                ps.append(temp);
+                ps.close();
+
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
             }
-            order.setLocalDateTime(LocalDateTime.now());
-            String StringPrice = String.valueOf(order.getTotalPrice());
-            temp += "Total - " + StringPrice + " kr.\n" + order.dateToString()+"\n\n";
-
-            ps.append(temp);
-            ps.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
         }
     }
 
