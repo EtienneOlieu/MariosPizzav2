@@ -10,6 +10,7 @@ public class Order {
     private double totalPrice = 0;
     private LocalDateTime localDateTime;
     private int orderNumber = 0;
+    private String note = "";
 
     //fjern pizza fra ordre
     //tilføj pizza til ordre
@@ -33,7 +34,6 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-
     public ArrayList<Pizza> getOrders() {
         return orders;
     }
@@ -42,8 +42,13 @@ public class Order {
         orders.add(pizza);
     }
 
+    public void removePizzaFromOrder(Pizza pizza){
+        orders.remove(pizza);
+    }
+
     public void setTotalPrice() {
         Pizza selectedPizza = null;
+        totalPrice = 0;
         for (int i = 0; i < orders.size(); i++) {
             selectedPizza = orders.get(i);
             totalPrice += selectedPizza.getPrice();

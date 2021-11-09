@@ -35,11 +35,14 @@ public class MariosPizza {
                     case 1 -> ui.showMenu(menu);
                     case 2 -> orderPizza(menu);
                     case 3 -> showOrderList();
-                    case 4 -> finalizeOrder();
-                    case 5 -> removeOrder();
-                    case 6 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
-                    case 9 -> createNewPizza(menu);
-                    case 10 -> removePizzaFromMenu();
+                    case 4 -> addExtraPizzaToOrder();
+                    //case 5 -> noteToOrder();
+                    case 6 -> removePizzaFromOrder();
+                    case 7 -> finalizeOrder();
+                    case 8 -> removeOrder();
+                    case 9 -> ui.printSalesOfTheDay(menu.salesOfTheDay());
+                    case 10 -> createNewPizza(menu);
+                    case 11 -> removePizzaFromMenu();
                     case 0 -> {
                         fileManager.saveToMenu(menu);
                         System.out.println("Pizzamenu has been saved.");
@@ -66,11 +69,8 @@ public class MariosPizza {
     }
 
     public void selectPizza(){
-        ui.showMenu(menu);
-        ui.userInterfacePrints(9);
         int command = -1;
-
-        while (command != 0) {
+        while (command != 0){
             try {
                 command = sc.nextInt();
                 if (command <= menu.getMenuList().size() && command > 0) {
@@ -86,7 +86,26 @@ public class MariosPizza {
         }
     }
 
+    public void addExtraPizzaToOrder(){
+        selectOrder();
+        ui.showMenu(menu);
+        ui.userInterfacePrints(8);
+        selectPizza();
+        selectedOrder.addPizzaToOrder(selectedPizza);
+        selectedOrder.setTotalPrice();
+    }
+
+    public void removePizzaFromOrder(){
+        selectOrder();
+        ui.showOrder(selectedOrder);
+        ui.userInterfacePrints(9);
+        selectPizza();
+        selectedOrder.removePizzaFromOrder(selectedPizza);
+        selectedOrder.setTotalPrice();
+    }
+
     public void removePizzaFromMenu(){ //TODO flyt til menu
+        ui.userInterfacePrints(13);
         selectPizza();
         menu.getMenuList().remove(selectedPizza);
         fixPizzaNumbers();
@@ -103,14 +122,13 @@ public class MariosPizza {
 
     private void selectOrder() {
         ui.finalizeOrderPrints(orderList);
-        ui.userInterfacePrints(8);
+        ui.userInterfacePrints(12);
             int tempCommand = sc.nextInt();
             for (Order order : orderList.getOrderList()) {
                 if (order.getOrderNumber() == tempCommand) {
                     selectedOrder = order;
                 }
             }
-
     }
 
     private void finalizeOrder() {
@@ -135,7 +153,7 @@ public class MariosPizza {
         ui.finalizeOrderPrints(orderList);
     }
 
-    public void orderPizza(Menu menu) {
+    public void orderPizza(Menu menu) {//TODO samme metode (while) som i select pizza
         Order order = new Order();
         ui.showMenu(menu);
         ui.userInterfacePrints(4);
@@ -161,7 +179,7 @@ public class MariosPizza {
                 orderCounter++;
                 order.setOrderNumber(orderCounter);
                 ui.userInterfacePrints(6);
-                ui.printOrder(order);
+                ui.printOrder(order); //TODO samme metode i ui som showOrder i removePizzaFromOrder
                 orderList.addOrderToList(order);
     }
 }

@@ -14,12 +14,10 @@ public class Menu {
 
     public Menu() {
         menuList = new ArrayList<>();
-
     }
 
     public ArrayList<Pizza> getMenuList() {
         return menuList;
-
     }
 
     public void loadMenu() {
